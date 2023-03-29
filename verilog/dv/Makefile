@@ -20,7 +20,7 @@
 .SILENT: clean all
 
 
-PATTERNS = io_ports la_test1 la_test2 wb_port mprj_stimulus
+PATTERNS = io_ports io_portsALU la_test1 la_test2 wb_port mprj_stimulus Algorithms_Vec_int
 
 all:  ${PATTERNS}
 

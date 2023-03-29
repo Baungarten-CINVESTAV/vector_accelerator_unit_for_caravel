@@ -1,0 +1,86 @@
+		4 ALU				|		Risc-V
+0000: Floating point Addition			|		N/A
+0001: Floating point Multiplication		|		N/A
+0010: Floating point division			|		N/A
+0011: Floating point subtraction  		|		N/A
+0100: OR operator				|		|
+0101: AND operator				|		&
+0110: XOR operator				|		^
+0111:	Left shif				|		<<
+1000: Right shift				|		>>
+1001: Floating Point to Integer		|		N/A
+1010: Not operator				|		~
+1011: Integer Addition				|		+
+1100: Integer subtraction			|		-
+1101: Integer Multiplication_32_MSB		|		N/A
+1110: Integer Multiplication_32_LSB		|		N/A
+1111: Zero					|
+
+					CLK results
+		4 ALU  + SW operator	(20)	|		Risc-V + SW operator
+0000: Floating point Addition		(20)	|		N/A		(N/A)
+0001: Floating point Multiplication	(20)	|		N/A		(N/A)
+0010: Floating point division		(20)	|		N/A		(N/A)
+0011: Floating point subtraction  	(20)	|		N/A		(N/A)
+0100: OR operator			(20)	|		|		(20) + 20
+0101: AND operator			(20)	|		&		(20) + 20
+0110: XOR operator			(20)	|		^		(20) + 20
+0111: Left shif			(20)	|		<<		(20-144) //20 min to 144  + 20
+1000: Right shift			(20)	|		>>		(20-144) //20 min to 144  + 20
+1001: Floating Point to Integer	(20)	|		N/A		(N/A)
+1010: Not operator			(20)	|		~		(56) + 20
+1011: Integer Addition			(20)	|		+		(20) + 20
+1100: Integer subtraction		(20)	|		-		(20) + 20
+1101: Integer Multiplication_32_MSB	(20)	|		N/A		(N/A)
+1110: Integer Multiplication_32_LSB	(20)	|		N/A		(N/A)
+1111: Zero					|
+//--------------------------------------Algoritms----------------------------------------------------
+
+					CLK results
+	Risc-V -4 ALU 				|		Risc-V
+				 --------------4x4--------------
+matrix addition			(91361) |	matrix addition				(119639)
+element-wise Logical AND operator	(90307) |	element-wise Logical AND operator		(119639) 
+element-wise Logical NOT operator	(70835) |	element-wise Logical NOT operator		(96702)  
+Scalar Product				(90307) |	Scalar Product					(204677) 
+				 --------------8x8--------------
+matrix addition			(361881)|	matrix addition				(432055) 
+element-wise Logical AND operator	(361881)|	element-wise Logical AND operator		(432011) 
+element-wise Logical NOT operator	(279719)|	element-wise Logical NOT operator		(343349) 
+Scalar Product				(361887)|	Scalar Product					(817854) 
+				 --------------12x12--------------
+matrix addition			(773772) 	|	matrix addition			(48494121) 
+element-wise Logical AND operator	(772698)	|	element-wise Logical AND operator	(55066147) 
+element-wise Logical NOT operator	(589053)	|	element-wise Logical NOT operator	(55883849)
+Scalar Product				(772698)	|	Scalar Product				(N/A) // Tardo mas de 4mil millones
+
+//Speedup Time old (Risc-v) / Time new (4ALU)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

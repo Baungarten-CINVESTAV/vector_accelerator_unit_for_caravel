@@ -1,0 +1,20 @@
+{
+    "DESIGN_NAME": "ALU",
+    "DESIGN_IS_CORE": 0,
+    "VERILOG_FILES": ["dir::../../verilog/rtl/ALU/ALU.v"],
+    "FP_SIZING": "absolute",
+    "CLOCK_PORT":"",
+    "DIE_AREA": "0 0 500 600",
+    "SYNTH_NO_FLAT": true,
+    "ROUTING_CORES":24,
+    "FP_CORE_UTIL": 50,
+    "DPL_CELL_PADDING":2,
+    "DIODE_INSERTION_STRATEGY": 4,
+    "SYNTH_STRATEGY": "AREA 0",
+    "CLOCK_PERIOD": 40,
+    "RUN_CVC": 0,
+    "VDD_NETS": ["vccd1"],
+    "GND_NETS": ["vssd1"],
+    "RT_MAX_LAYER": "met4"
+    
+}

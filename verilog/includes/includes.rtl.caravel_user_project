@@ -1,5 +1,10 @@
 # Caravel user project includes
 -v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v	     
--v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
+-v $(USER_PROJECT_VERILOG)/rtl/Top_Module_4_ALU.v
+-v $(USER_PROJECT_VERILOG)/rtl/ALU/ALU.v
+-v $(USER_PROJECT_VERILOG)/rtl/ALU/Addition_Subtraction.v
+ -v $(USER_PROJECT_VERILOG)/rtl/ALU/Multiplication.v
+ -v $(USER_PROJECT_VERILOG)/rtl/ALU/Division.v
+ -v $(USER_PROJECT_VERILOG)/rtl/ALU/Converter.v
 
- 
+  -v $(USER_PROJECT_VERILOG)/rtl/ALU/Priority_Encoder.v
