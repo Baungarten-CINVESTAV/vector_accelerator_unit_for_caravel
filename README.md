@@ -2,9 +2,6 @@
 
 Vector Accelerator Unit for Caravel
 ====================
-Table of contents
-=================
-
    
 Overview
 ========
@@ -18,13 +15,15 @@ The Vector Accelerator Unit was depicted to be combined
 with a custom SoC design as the original Caravel template but
 with the previous advantages, to achieve this, the accelerator
 only uses 18.02% of the User project area, in other words, the end-user has
-8.4256 mm2 to implement any custom design.
+8.4256 $mm^2$ to implement any custom design.
 
 Like the [Caravel User Project example](https://github.com/efabless/caravel_user_project), this repo explains step-by-step the RTL to GDS workflow with Caravel + Vector Accelerator Unit . 
 
 Prerequisites
 =============
-- [Caravel](https://github.com/efabless/caravel.git) 
+- Linux
+
+- Python 3.6+ with PIP
 
 
 Vector Accelerator Unit Integration
@@ -39,113 +38,76 @@ Starting your project
    *   Follow https://github.com/efabless/caravel_user_project/generate to create a new repository.
    *   Clone the reposity using the following command:
    
-      ````
+```` bash
     	git clone <your github repo URL>
-      ````
+````
 	
-#.  To setup your local environment run:
+2.  To setup your local environment run:
 
-    .. code:: bash
-    
-    	cd <project_name> # project_name is the name of your repo
-	
-    	mkdir dependencies
-	
+```` bash
+	cd <project_name> # project_name is the name of your repo
+
+	mkdir dependencies
+
 	export OPENLANE_ROOT=$(pwd)/dependencies/openlane_src # you need to export this whenever you start a new shell
-	
+
 	export PDK_ROOT=$(pwd)/dependencies/pdks # you need to export this whenever you start a new shell
 
 	# export the PDK variant depending on your shuttle, if you don't know leave it to the default
-	
+
 	# for sky130 MPW shuttles....
 	export PDK=sky130A
-	
+
 	# for the gf180 GFMPW shuttles...
 	export PDK=gf180mcuC
 
-
-
-        make setup
+	make setup
+ ````
 
 *   This command will setup your environment by installing the following
     
     - caravel_lite (a lite version of caravel)
+	---
+	>By default caravel-lite is installed. To install the full version of caravel, run this prior to calling make install.
+	```` bash
+		export CARAVEL_LITE=0
+	````
     - management core for simulation
     - openlane to harden your design 
     - pdk
 
 	
-#.  Now you can start hardening your design
+3.  Now you can start hardening the Vector Accelerator Unit 
 
-    *   To start hardening you project you need 
-        - RTL verilog model for your design for OpenLane to harden
-        - A subdirectory for each macro in your project under ``openlane/`` directory, each subdirectory should include openlane configuration files for the macro
+    *   To start hardening the Vector Accelerator Unit you need: download the verilog files of the Vector Accelerator Unit, and a subdirectory in your project under ``openlane/`` directory, the subdirectory should include openlane configuration files for the macro.
+    	- Vector Accelerator Unit Verilog files
+    		- [Top_Module_4_ALU](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/blob/main/verilog/rtl/Top_Module_4_ALU.v)
+    		- [ALU files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/verilog/rtl/ALU)
+		- [OpenLane subdirectory](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/openlane/ALL_ALU)
 
-        .. code:: bash
+4. Insie the [ALU.v](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/blob/main/verilog/rtl/ALU/ALU.v) you can choose the instructions you want the Vector Accelerator Unit perform, comment out the unwanted instructions.
+	- e.g. To eliminate the division of the Vector Accelerator Unit
+```` verilog
+	Addition_Subtraction AuI(Add_Sub_A,Add_Sub_B,AddBar_Sub,Add_Sub_Exception,Add_Sub_Output);
 
-           make <module_name>	
-        ..
+	Multiplication MuI(Mul_A,Mul_B,Mul_Exception,Mul_Overflow,Mul_Underflow,Mul_Output);
 
-		For an example of hardening a project please refer to `Hardening the User Project using OpenLane`_. .
-	
-#.  Integrate modules into the user_project_wrapper
+	//Division DuI(Div_A,Div_B,Div_Exception,Div_Output);
 
-    *   Change the environment variables ``VERILOG_FILES_BLACKBOX``, ``EXTRA_LEFS`` and ``EXTRA_GDS_FILES`` in ``openlane/user_project_wrapper/config.tcl`` to point to your module
-    *   Instantiate your module(s) in ``verilog/rtl/user_project_wrapper.v``
-    *   Harden the user_project_wrapper including your module(s), using this command:
+	Floating_Point_to_Integer FuI(Floating_Point,Integer_Value);
 
-        .. code:: bash
+````
 
-            make user_project_wrapper
+5. One time the Verilog files are inside the directory ``verilog/rtl``, as equal to [OpenLane files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/openlane/ALL_ALU), run the following command to harden the Vector Accelerator Unit
+       
+```` bash
+	   make <module_name>	
+           #e.g.
+	   make ALL_ALU
 
-#.  Run simulation on your design
+````
+6. Integrate the Vector Accelerator Unit with the user_project_wrapper, to do that instantiate the [Top_Module_4_ALU](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/blob/main/verilog/rtl/Top_Module_4_ALU.v) inside the user_project_wrapper,and modify the user_project_wrapper OpenLane files, see:
+	- [User_project_wrapper Verilog files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/blob/main/verilog/rtl/user_project_wrapper.v)
+	- [User_project_wrapper OpenLane files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/openlane/user_project_wrapper)
 
-    *   You need to include your rtl/gl/gl+sdf files in ``verilog/includes/includes.<rtl/gl/gl+sdf>.caravel_user_project``
-
-        **NOTE:** You shouldn't include the files inside the verilog code
-
-        .. code:: bash
-
-            # you can then run RTL simulations using
-            make verify-<testbench-name>-rtl
-
-            # OR GL simulation using
-            make verify-<testbench-name>-gl
-
-            # OR for GL+SDF simulation using 
-            # sdf annotated simulation is slow
-            make verify-<testbench-name>-gl-sdf
-
-            # for example
-            make verify-io_ports-rtl
-
-#.  Run opensta on your design
-
-    *   Extract spefs for ``user_project_wrapper`` and macros inside it:
-
-        .. code:: bash
-
-            make extract-parasitics
-
-    *   Create spef mapping file that maps instance names to spef files:
-
-        .. code:: bash
-
-            make create-spef-mapping
-
-    *   Run opensta:
-
-        .. code:: bash
-
-            make caravel-sta
-
-        **NOTE:** To update timing scripts run ``make setup-timing-scripts``
-	
-#.  Run the precheck locally 
-
-    .. code:: bash
-
-        make precheck
-        make run-precheck
-
-#. You are done! now go to https://efabless.com/open_shuttle_program/ to submit your project!
+7. Follow [Caravel](https://github.com/efabless/caravel_user_project/blob/main/docs/source/index.rst#section-quickstart)'s workflow to harden your custom modules.
