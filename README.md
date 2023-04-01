@@ -7,8 +7,8 @@ Overview
 ========
 
 This repo contains the Vector Accelerator Unit for Caravel, which increases [Caravel](https://github.com/efabless/caravel.git) 
-processing capabilities allowing to work with floating point and performs 14 new instructions, 
-in addition to parallel processing, this accelerator offers multiplication and division that the 
+processing capabilities allowing to work with floating point and performs 14 vector
+operations, in addition to parallel processing, this accelerator offers multiplication and division that the 
 original RISC-V of Caravel cannot perform. 
 
 The Vector Accelerator Unit was depicted to be combined
@@ -98,7 +98,7 @@ Starting your project
 
 ````
 
-5. One time the Verilog files are inside the directory ``verilog/rtl``, as equal to [OpenLane files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/openlane/ALL_ALU), run the following command to harden the Vector Accelerator Unit
+5. One time the Verilog files are inside ``verilog/rtl`` directory, as equal to [OpenLane files](https://github.com/Baungarten-CINVESTAV/vector_accelerator_unit_for_caravel/tree/main/openlane/ALL_ALU) are inside ``openlane`` directory, run the following command to harden the Vector Accelerator Unit
        
 ```` bash
 	   make <module_name>	
